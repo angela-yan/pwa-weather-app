@@ -1,5 +1,5 @@
 var dataCacheName = 'weatherData-v23';
-var staticCacheName = 'weatherPWA-step-7-15';
+var staticCacheName = 'weatherPWA-step-7-19';
 const MaxDataCacheSize = 20;
 var filesToCache = [
   '/',

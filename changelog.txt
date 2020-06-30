@@ -1,4 +1,14 @@
+Note: Only important changes are recorded here. For full change history, please check Github commit history.
+
 30 Jun 2020
+
+1. Get RealTime weather data for initial city (New York) as well.
+2. Reformat displayed time string.
+3. Fix issue where multiple weather icon could be added to same DOM element.
+
+
+30 Jun 2020
+SHA-1: 56161a3e9d193bb3637964fe7f287acf96029faa
 
 1. Use OpenWeahterMap (OWM) One Call API to query real time weather data for cities instead of using hardcoded information from firebaseio.
 2. Update available city list and use GPS coordinates to query for OWM real time data.

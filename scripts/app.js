@@ -170,13 +170,27 @@
     cardLastUpdatedElem.textContent = data.current.dt;
 
     card.querySelector('.description').textContent = data.current.weather[0].description;
-
-    var timeoptions = { dateStyle : 'full', timeStyle : 'long', timeZone: data.timezone };
+     var timeoptions = { 
+       weekday: 'short', 
+       year: 'numeric', month: 'long', day: 'numeric', 
+       hour: '2-digit', minute: '2-digit', second: '2-digit', 
+       timeZone: data.timezone, timeZoneName:'long' };
+   
+     //{ dateStyle : 'full', timeStyle : 'long', timeZone: data.timezone };
     var localTimeString = new Date(data.current.dt * 1000).toLocaleString("en-US", timeoptions);
     //var localTimeString = localTime.toLocaleString("en-US", timeoptions);
 
     card.querySelector('.date').textContent =
       localTimeString.replace('at ', '');
+    
+    var iconEle = card.querySelector('.current .icon');
+    if(iconEle)
+    {
+      //Checked the last added class, if it is not .icon, remove it.
+      var lastClassString = iconEle.classList[iconEle.classList.length - 1];
+      if(lastClassString !== "icon")
+        iconEle.classList.remove(lastClassString);
+    }
     card.querySelector('.current .icon').classList.add('i' + data.current.weather[0].icon);
     card.querySelector('.current .temperature .value').textContent =
       Math.round(data.current.temp);
@@ -200,6 +214,14 @@
       if (daily && nextDay) {
         nextDay.querySelector('.date').textContent =
           app.daysOfWeek[(i + today) % 7];
+
+        iconEle = nextDay.querySelector('.icon');
+        if (iconEle) {
+          //Checked the last added class, if it is not .icon, remove it.
+          var lastClassString = iconEle.classList[iconEle.classList.length - 1];
+          if (lastClassString !== "icon")
+            iconEle.classList.remove(lastClassString);
+        }
         nextDay.querySelector('.icon').classList.add('i' + daily.weather[0].icon);
         nextDay.querySelector('.temp-high .value').textContent =
           Math.round(daily.temp.max);
@@ -335,6 +357,8 @@
     });
   } else {
     app.updateForecastCard(initialWeatherForecast);
+    //Get realtime data for intial city as well
+    app.getForecastbygeo(initialWeatherForecast.key, initialWeatherForecast.label);
     app.selectedCities = [
       {key: initialWeatherForecast.key, label: initialWeatherForecast.label}
     ];
