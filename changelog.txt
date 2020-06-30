@@ -1,0 +1,18 @@
+30 Jun 2020
+
+1. Use OpenWeahterMap (OWM) One Call API to query real time weather data for cities instead of using hardcoded information from firebaseio.
+2. Update available city list and use GPS coordinates to query for OWM real time data.
+3. Modify UI to display weather information based on OWM API response and use OWM weather icons.
+4. Added change log.
+
+
+29 Jun 2020
+SHA-1: a9d7bdf2b81fb20dd11f09c451c21a5cd7b2b072
+
+   Initial check in.
+   Code based on https://github.com/ArturKlajnerok/pwa-weather. Following changes are added in initial check in:
+1. Register service-worker.js instead of service-worker-push-notifications.js.
+2. Add offline pages to cater for any additional pages added in future for offline access.
+3. Do not refresh weather data if incoming data is same and old than currently displayed.
+4. Save all non-weather data into datacache as well. (May need to review later if will take up too much storage)
+5. Limit maximum data cache size to 20 items.

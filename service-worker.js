@@ -1,5 +1,5 @@
-var dataCacheName = 'weatherData-v7';
-var staticCacheName = 'weatherPWA-step-7-2';
+var dataCacheName = 'weatherData-v23';
+var staticCacheName = 'weatherPWA-step-7-15';
 const MaxDataCacheSize = 20;
 var filesToCache = [
   '/',
@@ -7,20 +7,28 @@ var filesToCache = [
   '/offline.html',
   '/scripts/app.js',
   '/styles/inline.css',
-  '/images/clear.png',
-  '/images/cloudy-scattered-showers.png',
-  '/images/cloudy.png',
-  '/images/fog.png',
   '/images/ic_add_white_24px.svg',
+  '/images/ic_notifications_white_24px.svg',
   '/images/ic_refresh_white_24px.svg',
-  '/images/partly-cloudy.png',
-  '/images/rain.png',
-  '/images/scattered-showers.png',
-  '/images/sleet.png',
-  '/images/snow.png',
-  '/images/thunderstorm.png',
-  '/images/wind.png',
-  '/images/ic_notifications_white_24px.svg'
+  '/images/icons/icon-144x144.png',
+  '/images/01n@2x.png',
+  '/images/02n@2x.png',
+  '/images/03n@2x.png',
+  '/images/04n@2x.png',
+  '/images/09n@2x.png',
+  '/images/10n@2x.png',
+  '/images/11n@2x.png',
+  '/images/13n@2x.png',
+  '/images/50n@2x.png',
+  '/images/01d@2x.png',
+  '/images/02d@2x.png',
+  '/images/03d@2x.png',
+  '/images/04d@2x.png',
+  '/images/09d@2x.png',
+  '/images/10d@2x.png',
+  '/images/11d@2x.png',
+  '/images/13d@2x.png',
+  '/images/50d@2x.png'
 ];
 
 // cache size limit function
@@ -60,7 +68,7 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
   console.log('[ServiceWorker] Fetch', e.request.url);
-  var dataUrl = 'https://publicdata-weather.firebaseio.com/';
+  var dataUrl = 'https://api.openweathermap.org/data/2.5';
   if (e.request.url.indexOf(dataUrl) === 0) {
     e.respondWith(
       fetch(e.request)

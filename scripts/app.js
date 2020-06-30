@@ -3,30 +3,80 @@
   'use strict';
 
   var initialWeatherForecast = {
-    key: 'newyork',
+    key: '-75.499901,43.000351',
     label: 'New York, NY',
-    currently: {
-      time: 1453489481,
+    current: {
+      dt: 1453489481,
       summary: 'Clear',
-      icon: 'partly-cloudy-day',
-      temperature: 52.74,
-      apparentTemperature: 74.34,
-      precipProbability: 0.20,
-      humidity: 0.77,
-      windBearing: 125,
-      windSpeed: 1.52
-    },
-    daily: {
-      data: [
-        {icon: 'clear-day', temperatureMax: 55, temperatureMin: 34},
-        {icon: 'rain', temperatureMax: 55, temperatureMin: 34},
-        {icon: 'snow', temperatureMax: 55, temperatureMin: 34},
-        {icon: 'sleet', temperatureMax: 55, temperatureMin: 34},
-        {icon: 'fog', temperatureMax: 55, temperatureMin: 34},
-        {icon: 'wind', temperatureMax: 55, temperatureMin: 34},
-        {icon: 'partly-cloudy-day', temperatureMax: 55, temperatureMin: 34}
+      icon: '01d@2x',
+      temp: 52.74,
+      feels_like: 74.34,
+      pressure: 1002,
+      humidity: 77,
+      wind_deg: 125,
+      wind_speed: 1.52,
+      weather: [
+        {
+          id:721,
+          main: 'Haze',
+          description: 'haze',
+          icon: '50d'
+        }
       ]
-    }
+    },
+    daily: [
+        {}, //same behavior as data from OWM, not used by the app 
+        {
+          weather: [
+            {id: 802, main: "Clouds", description: "scattered clouds", icon: "03d"}, 
+          ],
+          temp: {day: 314.61, min: 308.55, max: 318.37, night: 314.05, eve: 318.37, morn: 308.55}
+        },
+        {
+          weather: [
+            {id: 802, main: "Thunderstorm", description: "light thunderstorm", icon: "11d"}, 
+          ],
+          temp: {day: 214.61, min: 208.55, max: 218.37, night: 214.05, eve: 218.37, morn: 208.55}
+        },
+        {
+          weather: [
+            {id: 802, main: "Drizzle", description: "shower drizzle", icon: "09d"}, 
+          ],
+          temp: {day: 224.61, min: 218.55, max: 228.37, night: 224.05, eve: 228.37, morn: 218.55}
+        },
+        {
+          weather: [
+            {id: 802, main: "Rain", description: "moderate rain", icon: "10d"}, 
+          ],
+          temp: {day: 234.61, min: 248.55, max: 238.37, night: 234.05, eve: 238.37, morn: 238.55}
+        },
+        {
+          weather: [
+            {id: 802, main: "Snow", description: "light snow", icon: "13d"}, 
+          ],
+          temp: {day: 244.61, min: 258.55, max: 248.37, night: 244.05, eve: 248.37, morn: 248.55}
+        },
+        {
+          weather: [
+            {id: 802, main: "Tornado", description: "tornado", icon: "50d"}, 
+          ],
+          temp: {day: 254.61, min: 268.55, max: 258.37, night: 254.05, eve: 258.37, morn: 258.55}
+        },
+        {
+          weather: [
+            {id: 802, main: "Clear", description: "clear sky", icon: "01d"}, 
+          ],
+          temp: {day: 324.61, min: 318.55, max: 328.37, night: 324.05, eve: 328.37, morn: 318.55}
+        }
+
+
+        // {icon: 'rain', temperatureMax: 55, temperatureMin: 34},
+        // {icon: 'snow', temperatureMax: 55, temperatureMin: 34},
+        // {icon: 'sleet', temperatureMax: 55, temperatureMin: 34},
+        // {icon: 'fog', temperatureMax: 55, temperatureMin: 34},
+        // {icon: 'wind', temperatureMax: 55, temperatureMin: 34},
+        // {icon: 'partly-cloudy-day', temperatureMax: 55, temperatureMin: 34}
+      ]
   };
 
   var app = {
@@ -38,7 +88,8 @@
     cardTemplate: document.querySelector('.cardTemplate'),
     container: document.querySelector('.main'),
     addDialog: document.querySelector('.dialog-container'),
-    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    OWM_API_KEY : "<NOTE!! Add personal OWM API key here!>"
   };
 
 
@@ -63,9 +114,12 @@
     var select = document.getElementById('selectCityToAdd');
     var selected = select.options[select.selectedIndex];
     var key = selected.value;
+    var geo = selected.value;
     var label = selected.textContent;
-    app.getForecast(key, label);
-    app.selectedCities.push({key: key, label: label});
+    app.getForecastbygeo(geo, label);
+    //app.getForecast(key, label);
+    app.selectedCities.push({key: geo, label: label});
+    //app.selectedCities.push({key: key, label: label});
     app.saveSelectedCities();
     app.toggleAddDialog(false);
   });
@@ -110,41 +164,47 @@
     const lastUpdated = parseInt(cardLastUpdated);
 
     // If the data on the element is newer, skip the update.
-    if (lastUpdated >= data.currently.time) {
+    if (lastUpdated >= data.current.dt) {
       return;
     }
-    cardLastUpdatedElem.textContent = data.currently.time;
+    cardLastUpdatedElem.textContent = data.current.dt;
 
-    card.querySelector('.description').textContent = data.currently.summary;
+    card.querySelector('.description').textContent = data.current.weather[0].description;
+
+    var timeoptions = { dateStyle : 'full', timeStyle : 'long', timeZone: data.timezone };
+    var localTimeString = new Date(data.current.dt * 1000).toLocaleString("en-US", timeoptions);
+    //var localTimeString = localTime.toLocaleString("en-US", timeoptions);
+
     card.querySelector('.date').textContent =
-      new Date(data.currently.time * 1000);
-    card.querySelector('.current .icon').classList.add(data.currently.icon);
+      localTimeString.replace('at ', '');
+    card.querySelector('.current .icon').classList.add('i' + data.current.weather[0].icon);
     card.querySelector('.current .temperature .value').textContent =
-      Math.round(data.currently.temperature);
+      Math.round(data.current.temp);
     card.querySelector('.current .feels-like .value').textContent =
-      Math.round(data.currently.apparentTemperature);
-    card.querySelector('.current .precip').textContent =
-      Math.round(data.currently.precipProbability * 100) + '%';
+      Math.round(data.current.feels_like);
+    card.querySelector('.current .pressure').textContent =
+      Math.round(data.current.pressure) + 'hPa';
     card.querySelector('.current .humidity').textContent =
-      Math.round(data.currently.humidity * 100) + '%';
+      Math.round(data.current.humidity) + '%';
     card.querySelector('.current .wind .value').textContent =
-      Math.round(data.currently.windSpeed);
+      Math.round(data.current.wind_speed);
     card.querySelector('.current .wind .direction').textContent =
-      data.currently.windBearing;
+      data.current.wind_deg;
     var nextDays = card.querySelectorAll('.future .oneday');
-    var today = new Date();
-    today = today.getDay();
+    var todayStringwithLocal = new Date(data.current.dt * 1000).toLocaleString("en-US", {timeZone: data.timezone});
+    var todayDay = new Date(todayStringwithLocal);
+    var today = todayDay.getDay();
     for (var i = 0; i < 7; i++) {
       var nextDay = nextDays[i];
-      var daily = data.daily.data[i];
+      var daily = data.daily[i + 1];
       if (daily && nextDay) {
         nextDay.querySelector('.date').textContent =
           app.daysOfWeek[(i + today) % 7];
-        nextDay.querySelector('.icon').classList.add(daily.icon);
+        nextDay.querySelector('.icon').classList.add('i' + daily.weather[0].icon);
         nextDay.querySelector('.temp-high .value').textContent =
-          Math.round(daily.temperatureMax);
+          Math.round(daily.temp.max);
         nextDay.querySelector('.temp-low .value').textContent =
-          Math.round(daily.temperatureMin);
+          Math.round(daily.temp.min);
       }
     }
     if (app.isLoading) {
@@ -160,6 +220,48 @@
    * Methods for dealing with the model
    *
    ****************************************************************************/
+  // Gets a forecast for a specific city by coordiantes and update the card with the data
+  app.getForecastbygeo = function(geo, label) {
+    var url = 'https://api.openweathermap.org/data/2.5/onecall?';
+    var lan_lon = geo.split(",");
+    url += "lat=" + lan_lon[0] + "&lon=" + lan_lon[1];
+    url += "&exclude=minutely";
+    url += "&appid=" + app.OWM_API_KEY;
+    //url += key + '.json';
+    if ('caches' in window) {
+      caches.match(url).then(function(response) {
+        if (response) {
+          response.json().then(function(json) {
+            // Only update if the XHR is still pending, otherwise the XHR
+            // has already returned and provided the latest data.
+            if (app.hasRequestPending) {
+              console.log('updated from cache');
+              json.key = geo;
+              json.label = label;
+              app.updateForecastCard(json);
+            }
+          });
+        }
+      });
+    }
+    // Make the XHR to get the data, then update the card
+    app.hasRequestPending = true;
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+      if (request.readyState === XMLHttpRequest.DONE) {
+        if (request.status === 200) {
+          var response = JSON.parse(request.response);
+          response.key = geo;
+          response.label = label;
+          app.hasRequestPending = false;
+          console.log('response from OWM: ', response);
+          app.updateForecastCard(response);
+        }
+      }
+    };
+    request.open('GET', url);
+    request.send();
+  };
 
   // Gets a forecast for a specific city and update the card with the data
   app.getForecast = function(key, label) {
@@ -203,7 +305,7 @@
   app.updateForecasts = function() {
     var keys = Object.keys(app.visibleCards);
     keys.forEach(function(key) {
-      app.getForecast(key);
+      app.getForecastbygeo(key);
     });
   };
 
@@ -229,7 +331,7 @@
   if (app.selectedCities) {
     app.selectedCities = JSON.parse(app.selectedCities);
     app.selectedCities.forEach(function(city) {
-      app.getForecast(city.key, city.label);
+      app.getForecastbygeo(city.key, city.label);
     });
   } else {
     app.updateForecastCard(initialWeatherForecast);

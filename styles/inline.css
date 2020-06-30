@@ -275,8 +275,8 @@ body {
   .weather-forecast .current .wind:before {
     content: "Wind: ";
     color: #888; }
-  .weather-forecast .current .precip:before {
-    content: "Precipitation: ";
+  .weather-forecast .current .pressure:before {
+    content: "Pressure: ";
     color: #888; }
   .weather-forecast .current .humidity:before {
     content: "Humidity: ";
@@ -309,6 +309,10 @@ body {
     .weather-forecast .future .oneday .temp-low {
       color: #888; }
 
+.weather-forecast .temperature {
+  position: relative;;
+  top: 20%; }
+
 .weather-forecast .icon {
   background-repeat: no-repeat;
   background-size: contain; }
@@ -334,6 +338,44 @@ body {
     background-image: url("/images/partly-cloudy.png"); }
   .weather-forecast .icon.thunderstorms {
     background-image: url("/images/thunderstorms.png"); }
+
+  .weather-forecast .icon.i01n {
+    background-image: url("/images/01n@2x.png"); }
+  .weather-forecast .icon.i02n {
+    background-image: url("/images/02n@2x.png"); }
+  .weather-forecast .icon.i03n {
+    background-image: url("/images/03n@2x.png"); }
+  .weather-forecast .icon.i04n {
+    background-image: url("/images/04n@2x.png"); }
+  .weather-forecast .icon.i09n {
+    background-image: url("/images/09n@2x.png"); }
+  .weather-forecast .icon.i10n {
+    background-image: url("/images/10n@2x.png"); }
+  .weather-forecast .icon.i11n {
+    background-image: url("/images/11n@2x.png"); }
+  .weather-forecast .icon.i13n {
+    background-image: url("/images/13n@2x.png"); }
+  .weather-forecast .icon.i50n {
+    background-image: url("/images/50n@2x.png"); }
+
+  .weather-forecast .icon.i01d {
+    background-image: url("/images/01d@2x.png"); }
+  .weather-forecast .icon.i02d {
+    background-image: url("/images/02d@2x.png"); }
+  .weather-forecast .icon.i03d {
+    background-image: url("/images/03d@2x.png"); }
+  .weather-forecast .icon.i04d {
+    background-image: url("/images/04d@2x.png"); }
+  .weather-forecast .icon.i09d {
+    background-image: url("/images/09d@2x.png"); }
+  .weather-forecast .icon.i10d {
+    background-image: url("/images/10d@2x.png"); }
+  .weather-forecast .icon.i11d {
+    background-image: url("/images/11d@2x.png"); }
+  .weather-forecast .icon.i13d {
+    background-image: url("/images/13d@2x.png"); }
+  .weather-forecast .icon.i50d {
+    background-image: url("/images/50d@2x.png"); }
 
 @media (max-width: 450px) {
   .weather-forecast .date, .weather-forecast .description {
