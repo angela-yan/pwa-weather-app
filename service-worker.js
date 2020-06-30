@@ -1,5 +1,5 @@
-var dataCacheName = 'weatherData-v23';
-var staticCacheName = 'weatherPWA-step-7-19';
+var dataCacheName = 'weatherData-v35';
+var staticCacheName = 'weatherPWA-step-7-39';
 const MaxDataCacheSize = 20;
 var filesToCache = [
   '/',
@@ -10,6 +10,7 @@ var filesToCache = [
   '/images/ic_add_white_24px.svg',
   '/images/ic_notifications_white_24px.svg',
   '/images/ic_refresh_white_24px.svg',
+  '/images/ic_place-marker_24px.svg',
   '/images/icons/icon-144x144.png',
   '/images/01n@2x.png',
   '/images/02n@2x.png',
@@ -69,7 +70,9 @@ self.addEventListener('activate', function(e) {
 self.addEventListener('fetch', function(e) {
   console.log('[ServiceWorker] Fetch', e.request.url);
   var dataUrl = 'https://api.openweathermap.org/data/2.5';
-  if (e.request.url.indexOf(dataUrl) === 0) {
+  var locationURL = 'https://api.bigdatacloud.net/data/reverse-geocode-client';
+  if (e.request.url.indexOf(dataUrl) === 0 ||
+      e.request.url.indexOf(locationURL) === 0) {
     e.respondWith(
       fetch(e.request)
         .then(function(response) {

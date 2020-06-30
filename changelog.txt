@@ -1,6 +1,15 @@
 Note: Only important changes are recorded here. For full change history, please check Github commit history.
 
+1 July 2020
+
+1. Add functionality to show weather data and area + country name based on current geo-location.
+2. Remove "Notification" button from UI.
+3. Remove duplicated "New York" city from 'add location' drop down box.
+4. Reverse geo-location data is saved in dynamic cache storage as realtime weather data.
+
+
 30 Jun 2020
+SHA-1: 0cd62f626f7d231d3342fef893adb0b7bd686476
 
 1. Get RealTime weather data for initial city (New York) as well.
 2. Reformat displayed time string.

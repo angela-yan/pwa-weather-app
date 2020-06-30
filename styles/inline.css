@@ -92,6 +92,12 @@ body {
     border: none;
     outline: none;
     cursor: pointer; }
+
+  .header #butCurrentLocation {
+    background: url(/images/ic_place-marker_24px.svg) center center no-repeat;
+    background-size: contain;
+   }
+ 
   .header #butNotifications {
       background: url(/images/ic_notifications_white_24px.svg) center center no-repeat; }
   .header #butRefresh {

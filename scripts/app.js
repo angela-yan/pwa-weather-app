@@ -4,7 +4,7 @@
 
   var initialWeatherForecast = {
     key: '-75.499901,43.000351',
-    label: 'New York, NY',
+    label: 'New York, USA',
     current: {
       dt: 1453489481,
       summary: 'Clear',
@@ -99,6 +99,11 @@
    *
    ****************************************************************************/
 
+  document.getElementById('butCurrentLocation').addEventListener('click', function() {
+    // Refresh all of the forecasts
+    app.getCurrentLocation();
+  });
+
   document.getElementById('butRefresh').addEventListener('click', function() {
     // Refresh all of the forecasts
     app.updateForecasts();
@@ -144,6 +149,71 @@
       app.addDialog.classList.remove('dialog-container--visible');
     }
   };
+
+   // Get Current geolocation coordinates
+  app.getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(app.geoSuccess, app.geoError);
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  };
+
+  // Callback function for successfully getting geolocation
+  app.geoSuccess = position => {
+    var lat = parseFloat(position.coords.latitude).toFixed(8);
+    var lon = parseFloat(position.coords.longitude).toFixed(8);
+    console.log("lat:" + lat + " lon:" + lon);
+    app.getCityNameFromGeocode(lat, lon);
+  }
+
+  // Callback function for failing to get geolocation
+  app.geoError = () => {
+    console.log("get geolocation failed.");
+  }
+
+  //Get area name/Country name based on geolocation
+  app.getCityNameFromGeocode = function (lat, lon){
+    var areaCountryName = "";
+    var url = 'https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat +
+     '&longitude=' + lon +
+     '&localityLanguage=en';
+
+    fetch(url)
+      .then (responseObj =>
+      {
+          return responseObj.json();
+      })
+      .then (response => {
+          console.log('response from bigdatacloud: ', response);
+          if(response.locality !== ""){
+            areaCountryName += response.locality;
+          }
+          else{
+            areaCountryName += response.city;
+          }
+
+          if(response.countryName !== "")
+          {
+            areaCountryName +=", " + response.countryName
+          }
+          console.log('areaCountryName: ', areaCountryName);
+
+          var geo = lat + "," + lon;
+          app.getForecastbygeo(geo, areaCountryName);
+          app.selectedCities.push({key: geo, label: areaCountryName});
+          app.saveSelectedCities();
+      })
+      .catch ( err => 
+      {
+        console.log("Fail to get current location name: ", err);
+        var geo = lat + "," + lon;
+        app.getForecastbygeo(geo, areaCountryName);
+        app.selectedCities.push({key: geo, label: areaCountryName});
+        app.saveSelectedCities();
+      });
+
+  }
 
   // Updates a weather card with the latest weather forecast. If the card
   // doesn't already exist, it's cloned from the template.
@@ -384,35 +454,35 @@
     // });
   }
 
-  var subcription;
-  var isSubscribed = false;
-  var notificationsButton = document.getElementById('butNotifications');
+//   var subcription;
+//   var isSubscribed = false;
+//   var notificationsButton = document.getElementById('butNotifications');
 
-  notificationsButton.addEventListener('click', function() {
-    if (isSubscribed) {
-      unsubscribe();
-    } else {
-      subscribe();
-    }
-  });
+//   notificationsButton.addEventListener('click', function() {
+//     if (isSubscribed) {
+//       unsubscribe();
+//     } else {
+//       subscribe();
+//     }
+//   });
 
-  function subscribe() {
-    registration.pushManager.subscribe({
-      userVisibleOnly: true
-    }).then(function(pushSubscription){
-      subcription = pushSubscription;
-      console.log('Subscribed! Endpoint:', subcription.endpoint);
-      isSubscribed = true;
-  });
-}
+//   function subscribe() {
+//     registration.pushManager.subscribe({
+//       userVisibleOnly: true
+//     }).then(function(pushSubscription){
+//       subcription = pushSubscription;
+//       console.log('Subscribed! Endpoint:', subcription.endpoint);
+//       isSubscribed = true;
+//   });
+// }
 
-function unsubscribe() {
-  subcription.unsubscribe().then(function(event) {
-    console.log('Unsubscribed!', event);
-    isSubscribed = false;
-  }).catch(function(error) {
-    console.log('Error unsubscribing', error);
-  });
-}
+// function unsubscribe() {
+//   subcription.unsubscribe().then(function(event) {
+//     console.log('Unsubscribed!', event);
+//     isSubscribed = false;
+//   }).catch(function(error) {
+//     console.log('Error unsubscribing', error);
+//   });
+// }
 
 })();
