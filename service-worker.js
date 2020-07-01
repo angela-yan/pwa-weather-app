@@ -1,5 +1,5 @@
 var dataCacheName = 'weatherData-v35';
-var staticCacheName = 'weatherPWA-step-7-39';
+var staticCacheName = 'weatherPWA-step-7-40';
 const MaxDataCacheSize = 20;
 var filesToCache = [
   '/',
@@ -78,7 +78,7 @@ self.addEventListener('fetch', function(e) {
         .then(function(response) {
           return caches.open(dataCacheName).then(function(cache) {
             cache.put(e.request.url, response.clone());
-            console.log('[ServiceWorker] Fetched&Cached Data');
+            console.log('[ServiceWorker] Fetched&Cached Data');           
             return response;
           });
         })

@@ -1,6 +1,13 @@
 Note: Only important changes are recorded here. For full change history, please check Github commit history.
 
+
 1 July 2020
+
+Save realtime weather data in localstorage.
+
+
+1 July 2020
+SHA-1: 3788f7cbb3d55127768cd21288ff0301022ed898
 
 1. Add functionality to show weather data and area + country name based on current geo-location.
 2. Remove "Notification" button from UI.

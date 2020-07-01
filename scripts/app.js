@@ -347,6 +347,14 @@
           response.label = label;
           app.hasRequestPending = false;
           console.log('response from OWM: ', response);
+
+          //Save real time weather data into local storage
+          //But not used, since already using cache storage above
+          if (typeof(Storage) !== "undefined") {
+            var responseJson = JSON.stringify(response);
+            // IMPORTANT: See notes about use of localStorage.
+            localStorage.setItem(geo, responseJson);
+          } 
           app.updateForecastCard(response);
         }
       }

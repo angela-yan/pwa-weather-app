@@ -14,7 +14,7 @@ https://openweathermap.org/api/one-call-api
 
 Selected city list is saved in Local Storage.
 
-Realtime weather data and reverse geo-location data is cached in dynamic Cached Storage in service worker.
+Realtime weather data and reverse geo-location data is cached in dynamic Cached Storage in service worker and local storage.
 
 Get current location weather data based on current geo-location and show location and country name use reserver geolocation API from BigDataCloud.
 https://www.bigdatacloud.com/geocoding-apis/free-reverse-geocode-to-city-api
