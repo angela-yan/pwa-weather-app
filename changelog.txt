@@ -1,7 +1,12 @@
 Note: Only important changes are recorded here. For full change history, please check Github commit history.
 
+1 July 2020 
+
+Use fetch() intead of Xhr object to retrieve OWM data as the Offline.js library seems affecting the Xhr object.
+
 
 1 July 2020 
+SHA-1: b6ef053d0547d4cf5a9ad3669a66b4780832dca9
 
 Show Online/Offline status with Offline.js library.
 

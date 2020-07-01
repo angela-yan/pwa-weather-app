@@ -336,19 +336,21 @@
         }
       });
     }
-    // Make the XHR to get the data, then update the card
+    // Use fetch instead of XHR, the offline.js library seems affecting
+    // the XMLHttpRequest object
     app.hasRequestPending = true;
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-      if (request.readyState === XMLHttpRequest.DONE) {
-        if (request.status === 200) {
-          var response = JSON.parse(request.response);
-          response.key = geo;
-          response.label = label;
-          app.hasRequestPending = false;
-          console.log('response from OWM: ', response);
-
-          //Save real time weather data into local storage
+    fetch(url)
+      .then (responseObj =>
+      {
+          return responseObj.json();
+      })
+      .then (response => {
+        response.key = geo;
+        response.label = label;
+        app.hasRequestPending = false;
+        console.log('response from OWM: ', response);
+        
+        //Save real time weather data into local storage
           //But not used, since already using cache storage above
           if (typeof(Storage) !== "undefined") {
             var responseJson = JSON.stringify(response);
@@ -356,11 +358,36 @@
             localStorage.setItem(geo, responseJson);
           } 
           app.updateForecastCard(response);
-        }
-      }
-    };
-    request.open('GET', url);
-    request.send();
+    })
+    .catch ( err => 
+    {
+      console.log("Fail to get OWM data: ", err);
+    });
+
+    // app.hasRequestPending = true;
+    // var request = new XMLHttpRequest();
+    // request.onreadystatechange = function() {
+    //   if (request.readyState === XMLHttpRequest.DONE) {
+    //     if (request.status === 200) {
+    //       var response = JSON.parse(request.response);
+    //       response.key = geo;
+    //       response.label = label;
+    //       app.hasRequestPending = false;
+    //       console.log('response from OWM: ', response);
+
+    //       //Save real time weather data into local storage
+    //       //But not used, since already using cache storage above
+    //       if (typeof(Storage) !== "undefined") {
+    //         var responseJson = JSON.stringify(response);
+    //         // IMPORTANT: See notes about use of localStorage.
+    //         localStorage.setItem(geo, responseJson);
+    //       } 
+    //       app.updateForecastCard(response);
+    //     }
+    //   }
+    // };
+    // request.open('GET', url);
+    // request.send();
   };
 
   // Gets a forecast for a specific city and update the card with the data
