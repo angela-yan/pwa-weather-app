@@ -89,7 +89,7 @@
     container: document.querySelector('.main'),
     addDialog: document.querySelector('.dialog-container'),
     daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    OWM_API_KEY : "<NOTE!! Add personal OWM API key here!>"
+    OWM_API_KEY : "e23711dbc25550434aeb30bee69d4478"
   };
 
 
@@ -133,7 +133,6 @@
     // Close the add new city dialog
     app.toggleAddDialog(false);
   });
-
 
   /*****************************************************************************
    *
@@ -224,7 +223,16 @@
       card.classList.remove('cardTemplate');
       card.querySelector('.location').textContent = data.label;
       card.removeAttribute('hidden');
+      card.querySelector('.cardButton').setAttribute('data-key', data.key);
+      card.querySelector('.cardButton').addEventListener('click', () =>{
+        delete app.visibleCards[data.key];
+        card.remove();
+        //Remove the city from selectedCities array as well
+        app.selectedCities = app.selectedCities.filter(city => city.key !== data.key);
+        app.saveSelectedCities();
+      })
       app.container.appendChild(card);
+
       app.visibleCards[data.key] = card;
     }
 
@@ -454,13 +462,7 @@
    *   SimpleDB (https://gist.github.com/inexorabletash/c8069c042b734519680c)
    ************************************************************************/
 
-  app.selectedCities = localStorage.selectedCities;
-  if (app.selectedCities) {
-    app.selectedCities = JSON.parse(app.selectedCities);
-    app.selectedCities.forEach(function(city) {
-      app.getForecastbygeo(city.key, city.label);
-    });
-  } else {
+  app.loadInitialWeatherCard = () => {
     app.updateForecastCard(initialWeatherForecast);
     //Get realtime data for intial city as well
     app.getForecastbygeo(initialWeatherForecast.key, initialWeatherForecast.label);
@@ -469,6 +471,24 @@
     ];
     app.saveSelectedCities();
   }
+
+  app.selectedCities = localStorage.selectedCities;
+  if (app.selectedCities) {
+    app.selectedCities = JSON.parse(app.selectedCities);
+    if(app.selectedCities.length == 0)
+    {
+      app.loadInitialWeatherCard();
+    }
+    else{
+      app.selectedCities.forEach(function(city) {
+        app.getForecastbygeo(city.key, city.label);
+      });
+    }
+  } 
+  else {
+    app.loadInitialWeatherCard();
+  }
+
 
   var registration;
 

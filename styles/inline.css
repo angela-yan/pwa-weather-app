@@ -105,6 +105,27 @@ body {
   .header #butAdd {
     background: url(/images/ic_add_white_24px.svg) center center no-repeat; }
 
+  .weather-forecast .cardButton {
+      width: 24px;
+      height: 24px;
+      margin-right: 2px;
+      margin-top: 0px;
+      text-indent: -30000px;
+      overflow: hidden;
+      opacity: 0.54;
+      -webkit-transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
+      transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
+      border: none;
+      outline: none;
+      cursor: pointer; 
+      float: right;
+    }
+
+  .weather-forecast #butRemove {
+    background: url(/images/ic-remove-24.svg) center center no-repeat;
+    background-size: contain;
+  }
+
 .header__title {
   font-weight: 400;
   font-size: 20px;
@@ -244,7 +265,9 @@ body {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
 .weather-forecast .location {
-  font-size: 1.75em; }
+  font-size: 1.75em; 
+  display: inline;
+}
 
 .weather-forecast .date, .weather-forecast .description {
   font-size: 1.25em; }

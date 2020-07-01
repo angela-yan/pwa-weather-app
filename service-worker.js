@@ -1,5 +1,5 @@
-var dataCacheName = 'weatherData-v35';
-var staticCacheName = 'weatherPWA-step-7-47';
+var dataCacheName = 'weatherData-v37';
+var staticCacheName = 'weatherPWA-step-7-63';
 const MaxDataCacheSize = 20;
 var filesToCache = [
   '/',
@@ -14,6 +14,7 @@ var filesToCache = [
   '/images/ic_notifications_white_24px.svg',
   '/images/ic_refresh_white_24px.svg',
   '/images/ic_place-marker_24px.svg',
+  '/images/ic-remove-24.svg',
   '/images/icons/icon-144x144.png',
   '/images/01n@2x.png',
   '/images/02n@2x.png',

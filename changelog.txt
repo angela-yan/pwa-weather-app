@@ -1,6 +1,13 @@
 Note: Only important changes are recorded here. For full change history, please check Github commit history.
 
+1 July 2020
+
+1. Add functionality to support 'remove weather card'.
+2. Add 'New York' back to 'add location' drop down box.
+
+
 1 July 2020 
+SHA-1: 552e2e5c83b6ae9229345c69a9c80c3bb9f7db5d
 
 Use fetch() intead of Xhr object to retrieve OWM data as the Offline.js library seems affecting the Xhr object.
 
