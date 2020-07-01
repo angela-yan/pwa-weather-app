@@ -7,6 +7,10 @@ Code based on https://github.com/ArturKlajnerok/pwa-weather, which in turn is ba
 
 Visual Studio Code + Live server
 
+## Web hosting
+
+https://pwa-weather-app-angelay.firebaseapp.com/
+
 ## Features
 
 - Use OpenWeahterMap (OWM) One Call API to query real time weather data for cities.

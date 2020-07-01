@@ -1,6 +1,12 @@
 Note: Only important changes are recorded here. For full change history, please check Github commit history.
 
+1 July 2020 
+
+Hosting app on firebase at https://pwa-weather-app-angelay.firebaseapp.com/. 
+
+
 1 July 2020
+SHA-1: 1c342aa1eaa2e4e67404ab852332cbfa749d39d6
 
 1. Add functionality to support 'remove weather card'.
 2. Add 'New York' back to 'add location' drop down box.
