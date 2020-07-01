@@ -1,12 +1,15 @@
 var dataCacheName = 'weatherData-v35';
-var staticCacheName = 'weatherPWA-step-7-40';
+var staticCacheName = 'weatherPWA-step-7-46';
 const MaxDataCacheSize = 20;
 var filesToCache = [
   '/',
   '/index.html',
   '/offline.html',
   '/scripts/app.js',
+  '/scripts/offline.min.js',
   '/styles/inline.css',
+  '/styles/offline-theme-default.css',
+  '/styles/offline-language-english-indicator.css',
   '/images/ic_add_white_24px.svg',
   '/images/ic_notifications_white_24px.svg',
   '/images/ic_refresh_white_24px.svg',
@@ -83,7 +86,13 @@ self.addEventListener('fetch', function(e) {
           });
         })
     );
-  } else {
+  } 
+  else if(e.request.url.indexOf('favicon.ico?_=') > -1)
+  {
+      //To check whether it is offline
+      //Don't save into cache storage, use default handling
+  }
+  else{
     e.respondWith(
       //For non-weather data, look from cache first.
       //If not found, fetch and save into datacache

@@ -1,7 +1,13 @@
 Note: Only important changes are recorded here. For full change history, please check Github commit history.
 
 
+1 July 2020 
+
+Show Online/Offline status with Offline.js library.
+
+
 1 July 2020
+SHA-1: a2b25255852395e4915c378d76b2b22165da6f7a
 
 Save realtime weather data in localstorage.
 
