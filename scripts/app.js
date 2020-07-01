@@ -89,7 +89,7 @@
     container: document.querySelector('.main'),
     addDialog: document.querySelector('.dialog-container'),
     daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    OWM_API_KEY : "e23711dbc25550434aeb30bee69d4478"
+    OWM_API_KEY : "<NOTE!! Add personal OWM API key here!>"
   };
 
 
